@@ -1,38 +1,18 @@
 const express = require('express');
-const Post = require('../models/Post'); // Tu modelo de datos
-const router = express.Router();
+const router = express.Router(); 
+const { protect } = require('../middleware/auth'); 
+const {
+    createPost,
+    getPosts,
+    getPostById,
+    updatePost,
+    deletePost
+} = require('../controllers/postController'); 
 
-// Ruta para obtener todos los posts
-router.get('/', async (req, res) => {
-  try {
-    const posts = await Post.find();
-    res.json(posts);
-  } catch (err) {
-    console.error('Error al obtener los posts:', err);
-    res.status(500).send('Hubo un error al obtener los posts');
-  }
-});
+router.get('/', getPosts); // Llama a la función getPosts del controlador
+router.post('/', protect, createPost);  // Primero se asegura que el usuario esté autenticado, luego llama a createPost
+router.get('/:id', getPostById);  // Llama a la función getPostById del controlador
+router.put('/:id', protect, updatePost);  // Primero se asegura que el usuario esté autenticado, luego llama a updatePost
+router.delete('/:id', protect, deletePost);  // Primero se asegura que el usuario esté autenticado, luego llama a deletePost
 
-// Ruta para crear un nuevo post
-router.post('/', async (req, res) => {
-  try {
-    const { title, description } = req.body;
-
-    const newPost = new Post({
-      title,
-      description,
-    });
-
-    await newPost.save();  // Guardar el post en la base de datos
-
-    res.status(201).json({
-      message: 'Post guardado correctamente en la base de datos',
-      post: newPost
-    });
-  } catch (err) {
-    console.error('Error al guardar el post:', err);
-    res.status(500).send('Hubo un error al guardar el post');
-  }
-});
-
-module.exports = router; // Exportamos el router para usarlo en server.js
+module.exports = router;
