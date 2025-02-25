@@ -4,6 +4,8 @@ const postsRoutes = require('./routes/posts');  // Importar las rutas de los pos
 const userRoutes = require('./routes/users');  // Importar las rutas de los usuarios
 const furnitureRoutes = require('./routes/furnitures');  // Importar las rutas de los muebles
 const authRoutes = require('./routes/auth');  // Importar las rutas de autenticación
+const cors = require('cors');
+
 
 const app = express();
 
@@ -12,12 +14,16 @@ connectDB();
 
 // Configuración de middlewares
 app.use(express.json());
+app.use(cors());  // Añadir el middleware de CORS
+
 
 // Usar las rutas importadas
 app.use('/api/posts', postsRoutes);  // Las rutas para los posts están en '/api/posts'
 app.use('/api/users', userRoutes);  // Las rutas para los usuarios están en '/api/users'
 app.use('/api/furniture', furnitureRoutes);  // Las rutas para los muebles están en '/api/furniture'
 app.use('/api/auth', authRoutes);   // Las rutas para autenticación están en '/api/auth'
+
+
 
 // Ruta básica para comprobar que el servidor está funcionando
 app.get('/', (req, res) => {
