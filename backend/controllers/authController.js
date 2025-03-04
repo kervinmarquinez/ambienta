@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 // Registrar un usuario
 const registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password} = req.body;
 
     try {
         // Verificar si el usuario ya existe
@@ -22,6 +22,7 @@ const registerUser = async (req, res) => {
             name,
             email,
             password: hashedPassword,
+
         });
 
         // Guardar el usuario en la base de datos
@@ -57,7 +58,21 @@ const loginUser = async (req, res) => {
             { expiresIn: '1h' }  // El token expirará en 1 hora
         );
 
-        res.json({ token });
+        // Crear un objeto con los datos del usuario (sin incluir la contraseña)
+        const userData = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            description: user.description,
+            // Aquí puedes añadir cualquier otro dato del usuario que quieras enviar
+            // Por ejemplo: role, createdAt, etc.
+        };
+
+        // Enviar el token y los datos del usuario
+        res.json({ 
+            token, 
+            user: userData 
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error al iniciar sesión' });
     }

@@ -13,7 +13,8 @@ const getUserProfile = async (req, res) => {
 
         res.json({
             name: user.name,
-            email: user.email
+            email: user.email,
+            description: user.description,
         });
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener perfil' });
@@ -23,7 +24,7 @@ const getUserProfile = async (req, res) => {
 // Actualizar el perfil del usuario
 const updateUserProfile = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, description } = req.body;
 
         // Buscar el usuario autenticado
         const user = await User.findById(req.user.id);
@@ -35,6 +36,7 @@ const updateUserProfile = async (req, res) => {
         // Actualizar los campos que se envían en la solicitud
         user.name = name || user.name;
         user.email = email || user.email;
+        user.description = description || user.description;
 
         if (password) {
             // Si se proporciona una nueva contraseña, encriptarla

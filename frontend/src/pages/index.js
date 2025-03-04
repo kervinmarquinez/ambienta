@@ -10,7 +10,7 @@ export default function Home() {
         <p className="grow-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
       </div>
 
-      <div className="bg-[url(/hero.jpg)] flex-grow bg-cover bg-center rounded-t-2xl"></div>
+      <div className="bg-[url(/hero.webp)] flex-grow bg-cover bg-center rounded-t-2xl"></div>
 
     </div>
   );

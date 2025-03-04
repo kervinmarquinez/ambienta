@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -58,59 +59,67 @@ const handleSubmit = async (e) => {
 };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-4">Registrarse</h1>
+    <div className="min-h-screen flex flex-row bg-gray-100">
 
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        {error && <p className="text-red-500">{error}</p>}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Nombre de usuario</label>
-          <input
-            type="text"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
+      <div className='w-1/2'>
+        <div className="min-h-screen bg-[url(/register.webp)] bg-cover bg-center"></div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+      <div className='w-1/2 flex flex-col justify-center items-center'>
+        <h1 className="text-2xl font-bold mb-4">Registrarse</h1>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Contraseña</label>
-          <input
-            type="password"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="w-full max-w-sm">
+          {error && <p className="text-red-500">{error}</p>}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Nombre de usuario</label>
+            <input
+              type="text"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
-          <input
-            type="password"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-500">
-          Registrarse
-        </button>
-      </form>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+            <input
+              type="password"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
+            <input
+              type="password"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="font-bold duration-300 w-full bg-blue-600 border-2 border-blue-600 hover:bg-gray-100 text-white hover:text-blue-600 py-2 rounded-2xl  mb-4">
+            Registrarse
+          </button>
+        </form>
+        <p>¿Tienes cuenta? <Link href="/login" className='text-sky-700'>Inicia Sesión</Link></p>
+      </div>
     </div>
   );
 }
