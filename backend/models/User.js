@@ -1,4 +1,3 @@
-// backend/models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -19,6 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'user', // El rol por defecto será 'user'
   },
+  description: {
+    type: String,
+    default: 'Escribe una descripción', // Descripción del usuario
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -29,6 +32,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Crear e exportar el modelo
+// Crear y exportar el modelo
 const User = mongoose.model('User', userSchema);
 module.exports = User;

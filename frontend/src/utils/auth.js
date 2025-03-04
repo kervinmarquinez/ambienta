@@ -1,19 +1,38 @@
+import useAuthStore from "../store/useAuthStore";
+
 export const isAuthenticated = () => {
-    // Verificar si el token JWT existe en el localStorage
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("token");
-    }
-    return null;
-  };
+  // Usar el store para verificar autenticación
+  const isAuth = useAuthStore.getState().isAuthenticated;
   
-  export const login = (token) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("token", token); // Guardar el token en el localStorage
-    }
-  };
+  // Verificación de respaldo con localStorage
+  if (!isAuth && typeof window !== "undefined") {
+    return localStorage.getItem("token") ? true : false;
+  }
   
-  export const logout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token"); // Eliminar el token del localStorage
-    }
-  };
+  return isAuth;
+};
+
+export const login = (token, userData) => {
+  // Guardar en localStorage como respaldo
+  if (typeof window !== "undefined") {
+    localStorage.setItem("token", token);
+  }
+  
+  // Actualizar el store
+  useAuthStore.getState().login(userData, token);
+};
+
+export const logout = () => {
+  // Limpiar localStorage
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("token");
+  }
+  
+  // Actualizar el store
+  useAuthStore.getState().logout();
+};
+
+// Función para obtener el usuario actual
+export const getCurrentUser = () => {
+  return useAuthStore.getState().user;
+};
