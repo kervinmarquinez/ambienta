@@ -20,7 +20,7 @@ export default function FurnitureList({ furnitures, onRemoveFurniture }) {
             <div className="mt-2">
               <p className="font-medium">{furniture.name}</p>
               {furniture.price > 0 && (
-                <p className="text-sm text-gray-600">${furniture.price}</p>
+                <p className="text-sm text-gray-600">{furniture.price} €</p>
               )}
             </div>
             <button
