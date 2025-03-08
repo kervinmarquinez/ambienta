@@ -13,7 +13,7 @@ export default function NavBar({welcomeMessage}) {
 
       <div>
         <h2 className='font-bold'>¡Hola {user.name}!</h2>
-        <Link className='flex items-center gap-2' href="/new">Nueva publicación<Plus className='hover:rotate-90 duration-300' size={20} /></Link>
+        <Link className='flex items-center gap-2' href="/post/new">Nueva publicación<Plus className='hover:rotate-90 duration-300' size={20} /></Link>
       </div>
     </div>
   )

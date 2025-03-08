@@ -6,7 +6,8 @@ const {
     getPosts,
     getPostById,
     updatePost,
-    deletePost
+    deletePost,
+    getUserPosts,
 } = require('../controllers/postController'); 
 
 router.get('/', getPosts); // Llama a la función getPosts del controlador
@@ -14,5 +15,6 @@ router.post('/', protect, createPost);  // Primero se asegura que el usuario est
 router.get('/:id', getPostById);  // Llama a la función getPostById del controlador
 router.put('/:id', protect, updatePost);  // Primero se asegura que el usuario esté autenticado, luego llama a updatePost
 router.delete('/:id', protect, deletePost);  // Primero se asegura que el usuario esté autenticado, luego llama a deletePost
+
 
 module.exports = router;
