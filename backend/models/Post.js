@@ -28,9 +28,23 @@ const postSchema = new mongoose.Schema({
   },
   furniture: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Furniture',  // Relación con el modelo Furniture
-    },
+      name: {
+        type: String,
+        required: true
+      },
+      purchaseLink: {
+        type: String,
+        default: ''
+      },
+      price: {
+        type: Number,
+        default: 0
+      },
+      imageUrl: {
+        type: String,
+        required: true
+      }
+    }
   ],
 });
 

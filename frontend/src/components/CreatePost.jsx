@@ -85,6 +85,7 @@ export default function CreatePost() {
   };
 
 // Manejar la creación del post completo
+// Manejar la creación del post completo
 const handleCreatePost = async (e) => {
   e.preventDefault();
   
@@ -112,12 +113,13 @@ const handleCreatePost = async (e) => {
     const postData = {
       title,
       description,
-      // Usar nombre de campo correcto según tu modelo de Post
-      image: mainImageUrl, // o imageUrl según corresponda
+      // Cambiado de 'image' a 'imageUrl' para coincidir con el backend
+      imageUrl: mainImageUrl,
       furniture: furnitureData
     };
     
     console.log('Datos a enviar:', postData);
+    console.log('Token usado para autenticación:', token);
 
     // Crear post
     const response = await fetch('http://localhost:5000/api/posts', {
@@ -129,6 +131,8 @@ const handleCreatePost = async (e) => {
       body: JSON.stringify(postData)
     });
 
+    console.log('Estado de la respuesta:', response.status);
+    
     // Obtener la respuesta textual para análisis
     const responseText = await response.text();
     console.log('Respuesta completa del servidor:', responseText);

@@ -8,7 +8,7 @@ const createPost = async (req, res) => {
         const newPost = new Post({
             title,
             description,
-            imageUrl,
+            image: imageUrl, 
             furniture, // Lista de muebles
             user: req.user.id, // ID del usuario autenticado
         });
@@ -17,7 +17,8 @@ const createPost = async (req, res) => {
 
         res.status(201).json(savedPost);
     } catch (error) {
-        res.status(500).json({ message: 'Error al crear el post' });
+        console.error('Error en createPost:', error);
+        res.status(500).json({ message: 'Error al crear el post', error: error.message });
     }
 };
 
