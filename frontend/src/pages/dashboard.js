@@ -1,6 +1,6 @@
 // src/pages/dashboard.js
 import { useState } from "react";
-import Layout from "@/components/Layout";
+import Layout from "@/layout/Layout";
 import useAuthStore from "@/store/useAuthStore";
 import { logout } from "@/utils/auth";
 import { useRouter } from "next/router";
