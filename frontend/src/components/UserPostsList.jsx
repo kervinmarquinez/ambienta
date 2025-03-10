@@ -21,31 +21,31 @@ export default function UserPostsList() {
   } = useEditModalStore();
 
   // Función para obtener los posts del usuario
-  useEffect(() => {
-    const fetchUserPosts = async () => {
-      try {
-        // Hacer la petición para obtener los posts del usuario
-        const response = await fetch(`http://localhost:5000/api/posts/user/${user.id}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Error al cargar los posts');
+  const fetchUserPosts = async () => {
+    try {
+      // Hacer la petición para obtener los posts del usuario
+      const response = await fetch(`http://localhost:5000/api/posts/user/${user.id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
+      });
 
-        const data = await response.json();
-        setPosts(data);
-      } catch (error) {
-        console.error('Error fetching user posts:', error);
-        setError('No se pudieron cargar tus publicaciones');
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error('Error al cargar los posts');
       }
-    };
 
+      const data = await response.json();
+      setPosts(data);
+    } catch (error) {
+      console.error('Error fetching user posts:', error);
+      setError('No se pudieron cargar tus publicaciones');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (user && token) {
       fetchUserPosts();
     }
@@ -92,6 +92,9 @@ export default function UserPostsList() {
     setPosts(posts.map(post => 
       post._id === updatedPost._id ? updatedPost : post
     ));
+    
+    // También podemos refrescar toda la lista para asegurarnos de tener los datos más recientes
+    fetchUserPosts();
   };
 
   // Renderizado condicional basado en estado
@@ -113,11 +116,12 @@ export default function UserPostsList() {
       <h2 className="text-xl font-bold mb-4">Mis Publicaciones</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {posts.map(post => (
-          <div key={post._id} className="bg-white rounded-lg overflow-hidden">
+          <div key={post._id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
             <Link href={`/post/${post._id}`}>
               <div className="cursor-pointer">
+                {/* Añadir clave única para forzar re-renderizado de la imagen cuando cambia */}
                 <img 
-                  src={post.image} 
+                  src={`${post.image}?${new Date(post.updatedAt).getTime()}`} 
                   alt={post.title} 
                   className="w-full h-48 object-cover"
                 />

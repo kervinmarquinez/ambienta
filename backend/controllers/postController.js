@@ -1,3 +1,4 @@
+// Versión corregida del backend/controllers/postController.js 
 const Post = require('../models/Post');
 
 // Crear un nuevo post
@@ -8,7 +9,7 @@ const createPost = async (req, res) => {
         const newPost = new Post({
             title,
             description,
-            image: imageUrl, 
+            image: imageUrl, // Aquí usamos image porque es el nombre del campo en el modelo
             furniture, // Lista de muebles
             user: req.user.id, // ID del usuario autenticado
         });
@@ -66,14 +67,16 @@ const updatePost = async (req, res) => {
         // Actualizar datos
         post.title = title || post.title;
         post.description = description || post.description;
-        post.imageUrl = imageUrl || post.imageUrl;
+        post.image = imageUrl || post.image; // Cambiado de imageUrl a image
         post.furniture = furniture || post.furniture;
+        post.updatedAt = Date.now(); // Actualizar la fecha de modificación
 
         const updatedPost = await post.save();
 
         res.json(updatedPost);
     } catch (error) {
-        res.status(500).json({ message: 'Error al actualizar el post' });
+        console.error('Error en updatePost:', error);
+        res.status(500).json({ message: 'Error al actualizar el post', error: error.message });
     }
 };
 
@@ -101,21 +104,13 @@ const deletePost = async (req, res) => {
 
 const getUserPosts = async (req, res) => {
     try {
-      // Verificamos si el usuario está accediendo a sus propios posts
-      // o si es un administrador (si implementas esa lógica)
-      if (req.user.id !== req.params.userId) {
-        return res.status(403).json({ message: 'No autorizado para ver posts de otro usuario' });
-      }
-  
-      const posts = await Post.find({ user: req.params.userId }).sort({ createdAt: -1 });
-      
-      res.json(posts);
+        const posts = await Post.find({ user: req.params.userId }).sort({ createdAt: -1 });
+        
+        res.json(posts);
     } catch (error) {
-      console.error('Error en getUserPosts:', error);
-      res.status(500).json({ message: 'Error al obtener los posts del usuario' });
+        console.error('Error en getUserPosts:', error);
+        res.status(500).json({ message: 'Error al obtener los posts del usuario' });
     }
-  };
-  
+};
 
-module.exports = { createPost, getPosts, getPostById, updatePost, deletePost, getUserPosts }
-
+module.exports = { createPost, getPosts, getPostById, updatePost, deletePost, getUserPosts };
