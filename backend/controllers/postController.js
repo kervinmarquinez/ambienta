@@ -99,6 +99,23 @@ const deletePost = async (req, res) => {
     }
 };
 
+const getUserPosts = async (req, res) => {
+    try {
+      // Verificamos si el usuario está accediendo a sus propios posts
+      // o si es un administrador (si implementas esa lógica)
+      if (req.user.id !== req.params.userId) {
+        return res.status(403).json({ message: 'No autorizado para ver posts de otro usuario' });
+      }
+  
+      const posts = await Post.find({ user: req.params.userId }).sort({ createdAt: -1 });
+      
+      res.json(posts);
+    } catch (error) {
+      console.error('Error en getUserPosts:', error);
+      res.status(500).json({ message: 'Error al obtener los posts del usuario' });
+    }
+  };
+  
 
+module.exports = { createPost, getPosts, getPostById, updatePost, deletePost, getUserPosts }
 
-module.exports = { createPost, getPosts, getPostById, updatePost, deletePost };

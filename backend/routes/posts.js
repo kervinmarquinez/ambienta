@@ -15,6 +15,7 @@ router.post('/', protect, createPost);  // Primero se asegura que el usuario est
 router.get('/:id', getPostById);  // Llama a la función getPostById del controlador
 router.put('/:id', protect, updatePost);  // Primero se asegura que el usuario esté autenticado, luego llama a updatePost
 router.delete('/:id', protect, deletePost);  // Primero se asegura que el usuario esté autenticado, luego llama a deletePost
+router.get('/user/:userId', protect, getUserPosts);
 
 
 module.exports = router;
