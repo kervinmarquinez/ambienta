@@ -22,7 +22,7 @@ export default function EditPostModal({ isOpen, onClose, post, onPostUpdated }) 
     if (post) {
       setTitle(post.title || '');
       setDescription(post.description || '');
-      setMainImagePreview(post.image || null);
+      setMainImagePreview(post.image || null); // Usamos la propiedad 'image' del post
       setFurnitures(post.furniture || []);
     }
   }, [post]);
@@ -142,37 +142,25 @@ export default function EditPostModal({ isOpen, onClose, post, onPostUpdated }) 
         },
         body: JSON.stringify(postData)
       });
-
-      console.log('Estado de la respuesta:', response.status);
       
-      // Obtener la respuesta textual para análisis
-      const responseText = await response.text();
-      console.log('Respuesta completa del servidor:', responseText);
-      
-      try {
-        // Intentar parsear como JSON
-        const responseData = JSON.parse(responseText);
-        
-        if (!response.ok) {
-          console.error('Error del servidor:', responseData);
-          throw new Error(responseData.message || 'Error al actualizar el post');
-        }
-        
-        console.log('Post actualizado exitosamente:', responseData);
-
-        // Notificar al componente padre sobre la actualización exitosa
-        if (onPostUpdated) {
-          onPostUpdated(responseData);
-        }
-
-        // Cerrar el modal
-        onClose();
-        
-        alert('Post actualizado exitosamente');
-      } catch (parseError) {
-        console.error('Error al procesar la respuesta JSON:', parseError);
-        throw new Error('Respuesta del servidor inválida: ' + responseText.substring(0, 100));
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error del servidor:', errorText);
+        throw new Error(errorText || 'Error al actualizar el post');
       }
+      
+      const updatedPost = await response.json();
+      console.log('Post actualizado exitosamente:', updatedPost);
+
+      // Notificar al componente padre sobre la actualización exitosa
+      if (onPostUpdated) {
+        onPostUpdated(updatedPost);
+      }
+
+      // Cerrar el modal
+      onClose();
+      
+      alert('Post actualizado exitosamente');
     } catch (error) {
       console.error('Error completo:', error);
       alert('Hubo un error al actualizar el post: ' + error.message);
@@ -234,6 +222,9 @@ export default function EditPostModal({ isOpen, onClose, post, onPostUpdated }) 
             
             {mainImagePreview && (
               <div className="mt-4">
+                <p className="text-sm text-gray-500 mb-2">
+                  {mainImage ? 'Nueva imagen seleccionada:' : 'Imagen actual:'}
+                </p>
                 <img 
                   src={mainImagePreview} 
                   alt="Vista previa" 
