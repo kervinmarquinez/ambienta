@@ -109,7 +109,7 @@ export default function FurnitureForm({ onAddFurniture }) {
                     <button
                         type="button"
                         onClick={handleAddFurniture}
-                        className="col-span-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200"
+                        className="col-span-2 font-bold  duration-300  bg-primary border-2 border-primary hover:bg-white hover:border-2 hover:border-primary hover:text-primary rounded-2xl br-2 px-8 py-2"
                     >
                         Añadir Mueble
                     </button>

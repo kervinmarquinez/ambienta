@@ -169,8 +169,8 @@ const handleCreatePost = async (e) => {
 };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Crear Nuevo Post de Decoración</h2>
+    <div className="p-6">
+      
       
       <form onSubmit={handleCreatePost}>
         {/* Sección de Información Principal del Post */}
@@ -240,7 +240,7 @@ const handleCreatePost = async (e) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="col-span-2 font-bold  duration-300  bg-primary border-2 border-primary hover:bg-white hover:border-2 hover:border-primary hover:text-primary rounded-2xl br-2 px-8 py-2"
         >
           {isLoading ? 'Creando...' : 'Crear Post'}
         </button>

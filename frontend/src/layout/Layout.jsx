@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/store/useAuthStore';
 import useModalStore from '@/store/useModalStore';
-import Sidebar from './SideBar';
-import NavBar from './NavBar';
-import Modal from './Modal';
-import CreatePost from './CreatePost';
-import ProtectedRoute from './ProtectedRoute';
+import Sidebar from '../components/SideBar';
+import NavBar from '../components/NavBar';
+import Modal from '../components/Modal';
+import CreatePost from '../components/CreatePost';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function Layout({ children, welcomeMessage = "Bienvenido" }) {
   const router = useRouter();

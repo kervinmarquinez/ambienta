@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useAuthStore from "../store/useAuthStore";
-import Layout from "@/components/Layout";
+import Layout from "@/layout/Layout";
 
 export default function MiPerfil() {
   const router = useRouter();
