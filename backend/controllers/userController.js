@@ -88,4 +88,25 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile, updateUserProfile, getAllUsers };
+const getUserById = async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+      
+      // Devolver solo la información que es segura compartir públicamente
+      res.json({
+        id: user._id,
+        name: user.name,
+        description: user.description
+        // No incluimos email ni otros datos sensibles
+      });
+    } catch (error) {
+      console.error('Error en getUserById:', error);
+      res.status(500).json({ message: 'Error al obtener el usuario' });
+    }
+  };
+
+module.exports = { getUserProfile, updateUserProfile, getAllUsers, getUserById };
