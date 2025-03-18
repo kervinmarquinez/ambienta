@@ -27,25 +27,36 @@ export default function Dashboard() {
 
   return (
     <Layout welcomeMessage="Bienvenido a tu feed">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Columna izquierda: Información del usuario y sus publicaciones */}
-        <div className="md:col-span-2">
+      {/* Grid con breakpoints responsivos */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        {/* Columna izquierda: Información del usuario y sus publicaciones - toma todo el ancho en móvil, 2/3 en desktop */}
+        <div className="lg:col-span-2 space-y-6">
           
           {loading ? (
-            <div className="animate-pulse bg-gray-200 h-32 rounded-lg mb-6"></div>
+            <div className="animate-pulse bg-gray-200 h-32 rounded-lg"></div>
           ) : (
             user && (
-              <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
                 <h2 className="text-xl font-semibold mb-3">Información del Usuario</h2>
-                <p className="mb-2"><span className="font-medium">Nombre:</span> {user.name}</p>
-                <p className="mb-2"><span className="font-medium">Email:</span> {user.email}</p>
-                <p className="mb-2">
-                  <span className="font-medium">Descripción:</span> {' '}
-                  {user.description || "Aún no has añadido una descripción. Dirígete a Configuración para agregar una."}
-                </p>
+                <div className="space-y-2">
+                  <p className="flex flex-col sm:flex-row sm:items-center">
+                    <span className="font-medium mr-2">Nombre:</span> 
+                    <span className="text-gray-700">{user.name}</span>
+                  </p>
+                  <p className="flex flex-col sm:flex-row sm:items-center">
+                    <span className="font-medium mr-2">Email:</span> 
+                    <span className="text-gray-700 break-all">{user.email}</span>
+                  </p>
+                  <div className="flex flex-col">
+                    <span className="font-medium mr-2">Descripción:</span>
+                    <p className="text-gray-700 mt-1">
+                      {user.description || "Aún no has añadido una descripción. Dirígete a Configuración para agregar una."}
+                    </p>
+                  </div>
+                </div>
                 <button
                   onClick={() => router.push('/configuracion')}
-                  className="mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  className="mt-4 text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-300"
                 >
                   Editar perfil
                 </button>
@@ -63,13 +74,15 @@ export default function Dashboard() {
               </div>
             </div>
           ) : (
-            <UserPostsList />
+            <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
+              <UserPostsList />
+            </div>
           )}
         </div>
 
-        {/* Columna derecha: Publicaciones recientes y consejos */}
-        <div>
-          <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        {/* Columna derecha: Publicaciones recientes y consejos - toma todo el ancho en móvil, 1/3 en desktop */}
+        <div className="space-y-6">
+          <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-3">Publicaciones Recientes</h2>
             {loading ? (
               <div className="animate-pulse space-y-4">
@@ -89,7 +102,7 @@ export default function Dashboard() {
             <div className="mt-4 text-center">
               <button
                 onClick={() => router.push('/explorar')}
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-300"
               >
                 Ver todas las publicaciones
               </button>
@@ -97,7 +110,7 @@ export default function Dashboard() {
           </div>
           
           {/* Consejos rápidos */}
-          <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg">
+          <div className="bg-blue-50 border border-blue-200 p-4 md:p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Consejos rápidos</h3>
             <ul className="list-disc list-inside text-sm space-y-2 text-blue-800">
               <li>Añade una descripción a tu perfil para que otros usuarios te conozcan</li>
