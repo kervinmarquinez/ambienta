@@ -75,4 +75,37 @@ router.post('/update-description', protect, async (req, res) => {
   }
 });
 
+router.post('/update-avatar', protect, async (req, res) => {
+  try {
+    const { avatarUrl } = req.body;
+    
+    if (!avatarUrl) {
+      return res.status(400).json({ message: 'La URL del avatar es requerida' });
+    }
+    
+    // Buscar usuario por ID (del token JWT)
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    
+    // Actualizar el avatar
+    user.avatarUrl = avatarUrl;
+    user.updatedAt = Date.now();
+    
+    await user.save();
+    
+    res.json({ 
+      message: 'Avatar actualizado exitosamente',
+      avatarUrl: user.avatarUrl
+    });
+  } catch (error) {
+    console.error('Error en actualización de avatar:', error);
+    res.status(500).json({ 
+      message: 'Error al actualizar el avatar',
+      error: error.message 
+    });
+  }
+});
+
 module.exports = router;

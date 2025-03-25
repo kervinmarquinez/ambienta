@@ -1,3 +1,4 @@
+// backend/controllers/authController.js (actualizar para incluir avatarUrl)
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -22,7 +23,6 @@ const registerUser = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-
         });
 
         // Guardar el usuario en la base de datos
@@ -64,8 +64,7 @@ const loginUser = async (req, res) => {
             name: user.name,
             email: user.email,
             description: user.description,
-            // Aquí puedes añadir cualquier otro dato del usuario que quieras enviar
-            // Por ejemplo: role, createdAt, etc.
+            avatarUrl: user.avatarUrl, // Incluir el avatar en la respuesta
         };
 
         // Enviar el token y los datos del usuario
