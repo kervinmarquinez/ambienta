@@ -1,3 +1,4 @@
+// backend/models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -21,6 +22,10 @@ const userSchema = new mongoose.Schema({
   description: {
     type: String,
     default: 'Escribe una descripción', // Descripción del usuario
+  },
+  avatarUrl: {
+    type: String,
+    default: 'https://res.cloudinary.com/demo/image/upload/v1493206330/default-avatar.png', // URL por defecto para el avatar
   },
   createdAt: {
     type: Date,
