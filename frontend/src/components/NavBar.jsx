@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import useAuthStore from '@/store/useAuthStore';
 import useModalStore from '@/store/useModalStore';
-import { Plus } from 'lucide-react';
+import { Plus, User } from 'lucide-react';
 
 export default function NavBar({ welcomeMessage }) {
   const { user } = useAuthStore();
@@ -32,15 +33,34 @@ export default function NavBar({ welcomeMessage }) {
       </div>
 
       {/* User info and new post button */}
-      <div className='flex flex-col items-center md:items-end'>
-        <h2 className='font-bold mb-2 md:mb-1'>¡Hola {user?.name || 'Usuario'}!</h2>
+      <div className='flex flex-col md:flex-row items-center md:items-end space-y-2 md:space-y-0 md:space-x-4'>
+        <div className="flex items-center space-x-3">
+          <Link href="/mi-perfil">
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 cursor-pointer">
+              {user?.avatarUrl ? (
+                <img 
+                  src={user.avatarUrl} 
+                  alt={user.name} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-primary text-black">
+                  <User size={16} />
+                </div>
+              )}
+            </div>
+          </Link>
+          <h2 className='font-bold'>¡Hola {user?.name || 'Usuario'}!</h2>
+        </div>
+        <div className="flex items-center space-x-3">
         <button 
           onClick={openCreatePostModal} 
-          className='flex items-center gap-2 hover:text-blue-600 cursor-pointer  md:bg-transparent px-4 py-1 md:p-0 md:rounded-none transition-all duration-300'
+          className='flex items-center gap-2 hover:text-blue-600 cursor-pointer md:bg-transparent px-4 py-1 md:p-0 md:rounded-none transition-all duration-300'
         >
           Nueva publicación
           <Plus className='hover:rotate-90 duration-300' size={isMobile ? 16 : 20} />
         </button>
+        </div>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   avatarUrl: {
     type: String,
-    default: 'https://res.cloudinary.com/demo/image/upload/v1493206330/default-avatar.png', // URL por defecto para el avatar
+    default: 'https://picsum.photos/300/200', // URL por defecto para el avatar
   },
   createdAt: {
     type: Date,

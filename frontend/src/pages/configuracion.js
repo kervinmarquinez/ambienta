@@ -4,6 +4,7 @@ import useAuthStore from "../store/useAuthStore";
 import Layout from "@/layout/Layout";
 import ProfileDescriptionForm from "@/components/ProfileDescriptionForm";
 import PasswordChangeForm from "@/components/PasswordChangeForm";
+import AvatarUploader from "@/components/AvatarUploader";
 
 export default function Configuracion() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function Configuracion() {
     <Layout welcomeMessage="Aquí puedes cambiar tu descripción o tu contraseña">
       <div className="p-6 rounded-lgw-full max-w-md">
 
-        
+        <AvatarUploader />
         {/* Componente para actualizar la descripción */}
         <ProfileDescriptionForm />
         
