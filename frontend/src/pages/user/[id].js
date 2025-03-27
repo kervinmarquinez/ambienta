@@ -1,4 +1,4 @@
-// src/pages/user/[id].js
+// frontend/src/pages/user/[id].js
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
