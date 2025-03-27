@@ -46,7 +46,7 @@ export default function UsersList() {
       <div className="flex flex-wrap -mx-2">
         {users.map(user => (
           <div key={user._id} className="w-full sm:w-1/2 md:w-1/3 px-2 mb-4">
-            <UserListItem id={user._id} name={user.name} description={user.description} />
+            <UserListItem id={user._id} name={user.name} description={user.description} avatar={user.avatarUrl}/>
           </div>
         ))}
       </div>
