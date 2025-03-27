@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Layout from "@/layout/Layout";
 import useAuthStore from "@/store/useAuthStore";
+import { User } from 'lucide-react';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -112,8 +113,22 @@ export default function UserProfile() {
 
   return (
     <Layout welcomeMessage={`Perfil de ${user.name}`}>
-      <div >
-        <div className="flex flex-col md:flex-row items-start md:items-center">
+      <div>
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 bg-white p-6 rounded-lg shadow-sm mb-6">
+          {/* Avatar del usuario */}
+          <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+            {user.avatarUrl ? (
+              <img 
+                src={user.avatarUrl} 
+                alt={user.name} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-primary text-black">
+                <User size={40} />
+              </div>
+            )}
+          </div>
 
           <div>
             <h1 className="text-2xl font-bold mb-2">{user.name}</h1>

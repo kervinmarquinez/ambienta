@@ -21,11 +21,22 @@ export default function MiPerfil() {
   return (
     <Layout welcomeMessage="Mi Perfil">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-4">{user.name}</h1>
-        <p className="italic text-gray-600 font-light">
-          {user.description ? user.description : "Sin descripción"}
-        </p>
+
+          <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200 cursor-pointer mb-4">
+            <img 
+                        src={user.avatarUrl} 
+                        alt={user.name} 
+                        className="w-full h-full object-cover"
+                      />
+          </div>
+          <h1 className="text-2xl font-bold mb-4">{user.name}</h1>
+
+          
+          <p className="italic text-gray-600 font-light">
+            {user.description ? user.description : "Sin descripción"}
+          </p>
       </div>
+      
 
       {/* Lista de posts del usuario */}
       <UserPostsList />
