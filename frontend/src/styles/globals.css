@@ -20,3 +20,8 @@ body {
   background: var(--background);
   font-family: 'Poppins', sans-serif;
 }
+
+/* Ocultar el spinner de Next.js */
+#nprogress .spinner {
+  display: none !important;
+}
