@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Modal from './Modal';
 import FurnitureForm from './FurnitureForm';
 import FurnitureList from './FurnitureList';
@@ -12,6 +13,7 @@ export default function EditPostModal({ isOpen, onClose, post, onPostUpdated }) 
   const [furnitures, setFurnitures] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuthStore();
+  const router = useRouter();
 
   // Configuración de Cloudinary
   const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
@@ -160,7 +162,9 @@ export default function EditPostModal({ isOpen, onClose, post, onPostUpdated }) 
       // Cerrar el modal
       onClose();
       
-      alert('Post actualizado exitosamente');
+      // Redirigir al usuario a la página del post actualizado
+      router.push(`/post/${post._id}`);
+      
     } catch (error) {
       console.error('Error completo:', error);
       alert('Hubo un error al actualizar el post: ' + error.message);
