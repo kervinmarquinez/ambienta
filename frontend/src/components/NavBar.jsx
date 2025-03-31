@@ -33,7 +33,7 @@ export default function NavBar({ welcomeMessage }) {
       </div>
 
       {/* User info and new post button */}
-      <div className='flex flex-col md:flex-row items-center md:items-end space-y-2 md:space-y-0 md:space-x-4'>
+      <div className='flex flex-col md:flex-row items-center  space-y-2 md:space-y-0 md:space-x-4'>
         <div className="flex items-center space-x-3">
           <Link href="/mi-perfil">
             <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 cursor-pointer">

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import FurnitureForm from './FurnitureForm';
 import FurnitureList from './FurnitureList';
 import useAuthStore from '@/store/useAuthStore';
+import useModalStore from '@/store/useModalStore';
 
-export default function CreatePost() {
+export default function CreatePost({ onPostCreated }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [mainImage, setMainImage] = useState(null);
@@ -11,6 +13,8 @@ export default function CreatePost() {
   const [furnitures, setFurnitures] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { user, isAuthenticated, token } = useAuthStore();
+  const { closeCreatePostModal } = useModalStore();
+  const router = useRouter();
 
   // Configuración de Cloudinary
   const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
@@ -84,94 +88,101 @@ export default function CreatePost() {
     setFurnitures(prev => prev.filter((_, i) => i !== index));
   };
 
-// Manejar la creación del post completo
-// Manejar la creación del post completo
-const handleCreatePost = async (e) => {
-  e.preventDefault();
-  
-  // Validaciones básicas
-  if (!title || !mainImage) {
-    alert('Por favor, completa el título y selecciona una imagen principal');
-    return;
-  }
-
-  setIsLoading(true);
-
-  try {
-    // Subir imagen principal a Cloudinary
-    const mainImageUrl = await uploadImageToCloudinary(mainImage);
-
-    // Preparar datos de muebles para enviar
-    const furnitureData = furnitures.map(furniture => ({
-      name: furniture.name,
-      purchaseLink: furniture.purchaseLink || '',
-      price: furniture.price || 0,
-      imageUrl: furniture.imageUrl
-    }));
-
-    // Objeto para enviar a la API
-    const postData = {
-      title,
-      description,
-      // Cambiado de 'image' a 'imageUrl' para coincidir con el backend
-      imageUrl: mainImageUrl,
-      furniture: furnitureData
-    };
+  // Manejar la creación del post completo
+  const handleCreatePost = async (e) => {
+    e.preventDefault();
     
-    console.log('Datos a enviar:', postData);
-    console.log('Token usado para autenticación:', token);
-
-    // Crear post
-    const response = await fetch('http://localhost:5000/api/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(postData)
-    });
-
-    console.log('Estado de la respuesta:', response.status);
-    
-    // Obtener la respuesta textual para análisis
-    const responseText = await response.text();
-    console.log('Respuesta completa del servidor:', responseText);
-    
-    try {
-      // Intentar parsear como JSON
-      const responseData = JSON.parse(responseText);
-      
-      if (!response.ok) {
-        console.error('Error del servidor:', responseData);
-        throw new Error(responseData.message || 'Error al crear el post');
-      }
-      
-      console.log('Post creado exitosamente:', responseData);
-
-      // Limpiar formulario
-      setTitle('');
-      setDescription('');
-      setMainImage(null);
-      setMainImagePreview(null);
-      setFurnitures([]);
-
-      alert('Post creado exitosamente');
-    } catch (parseError) {
-      console.error('Error al procesar la respuesta JSON:', parseError);
-      throw new Error('Respuesta del servidor inválida: ' + responseText.substring(0, 100));
+    // Validaciones básicas
+    if (!title || !mainImage) {
+      alert('Por favor, completa el título y selecciona una imagen principal');
+      return;
     }
-  } catch (error) {
-    console.error('Error completo:', error);
-    alert('Hubo un error al crear el post: ' + error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+
+    setIsLoading(true);
+
+    try {
+      // Subir imagen principal a Cloudinary
+      const mainImageUrl = await uploadImageToCloudinary(mainImage);
+
+      // Preparar datos de muebles para enviar
+      const furnitureData = furnitures.map(furniture => ({
+        name: furniture.name,
+        purchaseLink: furniture.purchaseLink || '',
+        price: furniture.price || 0,
+        imageUrl: furniture.imageUrl
+      }));
+
+      // Objeto para enviar a la API
+      const postData = {
+        title,
+        description,
+        // Cambiado de 'image' a 'imageUrl' para coincidir con el backend
+        imageUrl: mainImageUrl,
+        furniture: furnitureData
+      };
+      
+      console.log('Datos a enviar:', postData);
+      console.log('Token usado para autenticación:', token);
+
+      // Crear post
+      const response = await fetch('http://localhost:5000/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(postData)
+      });
+
+      console.log('Estado de la respuesta:', response.status);
+      
+      // Obtener la respuesta textual para análisis
+      const responseText = await response.text();
+      console.log('Respuesta completa del servidor:', responseText);
+      
+      try {
+        // Intentar parsear como JSON
+        const responseData = JSON.parse(responseText);
+        
+        if (!response.ok) {
+          console.error('Error del servidor:', responseData);
+          throw new Error(responseData.message || 'Error al crear el post');
+        }
+        
+        console.log('Post creado exitosamente:', responseData);
+
+        // Limpiar formulario
+        setTitle('');
+        setDescription('');
+        setMainImage(null);
+        setMainImagePreview(null);
+        setFurnitures([]);
+
+        // Cerrar el modal
+        closeCreatePostModal();
+
+        // Notificar al componente padre si existe el callback
+        if (onPostCreated) {
+          onPostCreated(responseData);
+        }
+
+        // Redirigir al usuario a la página del nuevo post
+        router.push(`/post/${responseData._id}`);
+        
+      } catch (parseError) {
+        console.error('Error al procesar la respuesta JSON:', parseError);
+        throw new Error('Respuesta del servidor inválida: ' + responseText.substring(0, 100));
+      }
+    } catch (error) {
+      console.error('Error completo:', error);
+      alert('Hubo un error al crear el post: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="p-6">
-      
-      
       <form onSubmit={handleCreatePost}>
         {/* Sección de Información Principal del Post */}
         <div className="mb-4">
@@ -240,11 +251,11 @@ const handleCreatePost = async (e) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="col-span-2 font-bold  duration-300  bg-primary border-2 border-primary hover:bg-white hover:border-2 hover:border-primary hover:text-primary rounded-2xl br-2 px-8 py-2"
+          className="col-span-2 font-bold duration-300 bg-primary border-2 border-primary hover:bg-white hover:border-2 hover:border-primary hover:text-primary rounded-2xl br-2 px-8 py-2"
         >
           {isLoading ? 'Creando...' : 'Crear Post'}
         </button>
       </form>
     </div>
   );
-};
+}
