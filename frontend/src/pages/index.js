@@ -9,8 +9,7 @@ export default function Home() {
       <div className="flex flex-col md:flex-row p-4 md:p-7 items-center">
         <h1 className="text-4xl md:text-7xl lg:text-9xl font-bold mb-4 md:mb-0 md:grow-3">CREA. INSPIRA.</h1>
         <p className="md:grow-0 text-sm md:text-base">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+        Descubre, comparte e inspira con diseños únicos para tu hogar. Ambienta es la plataforma donde los <br></br>amantes del diseño de interiores pueden subir sus espacios decorados, explorar ideas y encontrar inspiración para transformar cualquier rincón.
         </p>
       </div>
 
