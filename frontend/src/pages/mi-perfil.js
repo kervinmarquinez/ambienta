@@ -38,8 +38,7 @@ export default function MiPerfil() {
       </div>
       
 
-      {/* Lista de posts del usuario */}
-      <UserPostsList />
+
     </Layout>
   );
 }
