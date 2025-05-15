@@ -23,7 +23,7 @@ export default function UserProfile() {
       const fetchUserData = async () => {
         try {
           // Petición para obtener datos del usuario
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/users/${id}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ export default function UserProfile() {
   // Función para cargar los posts del usuario
   const fetchUserPosts = async (userId) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/posts/user/${userId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/user/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
