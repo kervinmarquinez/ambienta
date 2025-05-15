@@ -12,7 +12,7 @@ export default function ExplorePostsList() {
   useEffect(() => {
     const fetchAllPosts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/posts', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/posts`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

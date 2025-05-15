@@ -125,7 +125,7 @@ export default function CreatePost({ onPostCreated }) {
       console.log('Token usado para autenticación:', token);
 
       // Crear post
-      const response = await fetch('http://localhost:5000/api/posts', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

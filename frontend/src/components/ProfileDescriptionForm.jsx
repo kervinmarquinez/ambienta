@@ -17,7 +17,7 @@ export default function ProfileDescriptionForm() {
     
     try {
       // Hacemos un endpoint específico para actualizar solo la descripción
-      const response = await fetch('http://localhost:5000/api/users/update-description', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/users/update-description`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

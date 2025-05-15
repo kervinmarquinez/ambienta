@@ -20,7 +20,7 @@ export default function PostDetail() {
     if (id && token) {
       const fetchPostData = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/posts/${id}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/posts/${id}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'

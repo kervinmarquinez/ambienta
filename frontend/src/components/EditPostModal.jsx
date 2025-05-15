@@ -136,7 +136,7 @@ export default function EditPostModal({ isOpen, onClose, post, onPostUpdated }) 
       console.log('Datos a enviar:', postData);
 
       // Actualizar el post
-      const response = await fetch(`http://localhost:5000/api/posts/${post._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/posts/${post._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

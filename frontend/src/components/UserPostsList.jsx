@@ -24,7 +24,7 @@ export default function UserPostsList() {
   const fetchUserPosts = async () => {
     try {
       // Hacer la petición para obtener los posts del usuario
-      const response = await fetch(`http://localhost:5000/api/posts/user/${user.id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/posts/user/${user.id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ export default function UserPostsList() {
     
     if (window.confirm('¿Estás seguro de que quieres eliminar esta publicación?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/posts/${postId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

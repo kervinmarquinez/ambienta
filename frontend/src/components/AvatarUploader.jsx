@@ -72,7 +72,7 @@ export default function AvatarUploader() {
   // Actualizar avatar en el backend
   const updateAvatar = async (avatarUrl) => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/update-avatar', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/users/update-avatar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
